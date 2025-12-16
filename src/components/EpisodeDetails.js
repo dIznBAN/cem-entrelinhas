@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { episodes } from '../data/episodes';
 
@@ -6,13 +6,14 @@ const EpisodeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const episode = episodes[id];
+  const [isPlaying, setIsPlaying] = useState(false);
 
   if (!episode) {
     return <div>Episódio não encontrado</div>;
   }
 
   const handlePlay = () => {
-    navigate(`/player/${id}`);
+    setIsPlaying(true);
   };
 
   return (
@@ -30,7 +31,6 @@ const EpisodeDetails = () => {
             <button className="play-btn" onClick={handlePlay}>
               Reproduzir
             </button>
-            <div className="like">❤️ 2</div>
           </div>
         </div>
 
@@ -59,6 +59,20 @@ const EpisodeDetails = () => {
           ))}
         </div>
       </div>
+
+      {isPlaying && (
+        <div className="player-area">
+          <h2>Reproduzindo: {episode.title}</h2>
+          <div className="video-wrapper">
+            <iframe
+              src={episode.videoUrl}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title={episode.title}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
