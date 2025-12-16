@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { episodes } from '../data/episodes';
 
@@ -6,14 +6,9 @@ const EpisodeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const episode = episodes[id];
-  const [isPlaying, setIsPlaying] = useState(false);
 
   if (!episode) {
     return <div>Episódio não encontrado</div>;
-  }
-
-  const handlePlay = () => {
-    setIsPlaying(true);
   };
 
   return (
@@ -28,9 +23,12 @@ const EpisodeDetails = () => {
           <span>{episode.author}</span>
 
           <div className="podcast-actions">
-            <button className="play-btn" onClick={handlePlay}>
+            <button className="play-btn">
               Reproduzir
             </button>
+            <div className="episode-info">
+              <span>Duração: {episode.duration}</span>
+            </div>
           </div>
         </div>
 
@@ -60,19 +58,17 @@ const EpisodeDetails = () => {
         </div>
       </div>
 
-      {isPlaying && (
-        <div className="player-area">
-          <h2>Reproduzindo: {episode.title}</h2>
-          <div className="video-wrapper">
-            <iframe
-              src={episode.videoUrl}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title={episode.title}
-            />
-          </div>
+      <div className="player-area">
+        <h2>{episode.title}</h2>
+        <div className="video-wrapper">
+          <iframe
+            src={episode.videoUrl}
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title={episode.title}
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 };

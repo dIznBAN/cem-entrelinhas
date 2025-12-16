@@ -247,6 +247,13 @@ body {
   background: #17c653;
 }
 
+.episode-info {
+  display: flex;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
 .like {
   display: flex;
   align-items: center;
