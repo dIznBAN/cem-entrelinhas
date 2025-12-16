@@ -5,7 +5,7 @@ export const episodes = {
     author: 'com PolicIal',
     description: 'Descubra as táticas e mentalidade para acelerar sua ascensão hierárquica na carreira militar.',
     duration: '03:25',
-    videoUrl: 'https://drive.google.com/file/d/1VGFaYqavSThNmYyq0Atp_pz1OSeZ0M1H/preview',
+    audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
     episodes: [
       {
         id: 1,
@@ -21,7 +21,7 @@ export const episodes = {
     author: 'com PolicIal',
     description: 'Guia completo para estruturar, formatar e apresentar projetos que serão aprovados e farão a diferença.',
     duration: '05:12',
-    videoUrl: 'https://drive.google.com/file/d/1J9rYo2ShXlUjoKA5wDF6YwTs1FlYZ4Uu/preview',
+    audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
     episodes: [
       {
         id: 1,

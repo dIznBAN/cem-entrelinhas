@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { episodes } from '../data/episodes';
 
@@ -6,9 +6,30 @@ const EpisodeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const episode = episodes[id];
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   if (!episode) {
     return <div>Episódio não encontrado</div>;
+  }
+
+  const handlePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -23,12 +44,22 @@ const EpisodeDetails = () => {
           <span>{episode.author}</span>
 
           <div className="podcast-actions">
-            <button className="play-btn">
-              Reproduzir
+            <button className="play-btn" onClick={handlePlay}>
+              {isPlaying ? '⏸️' : '▶️'} {isPlaying ? 'Pausar' : 'Reproduzir'}
             </button>
-            <div className="episode-info">
-              <span>Duração: {episode.duration}</span>
-            </div>
+            {isPlaying && (
+              <div className="mini-player">
+                <div className="progress-bar">
+                  <div 
+                    className="progress-fill" 
+                    style={{ width: `${(currentTime / duration) * 100}%` }}
+                  ></div>
+                </div>
+                <span className="time-display">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -58,17 +89,14 @@ const EpisodeDetails = () => {
         </div>
       </div>
 
-      <div className="player-area">
-        <h2>{episode.title}</h2>
-        <div className="video-wrapper">
-          <iframe
-            src={episode.videoUrl}
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            title={episode.title}
-          />
-        </div>
-      </div>
+      <audio 
+        ref={audioRef}
+        onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime || 0)}
+        onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
+        onEnded={() => setIsPlaying(false)}
+      >
+        <source src={episode.audioUrl} type="audio/mpeg" />
+      </audio>
     </div>
   );
 };

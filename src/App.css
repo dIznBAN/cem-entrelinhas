@@ -247,11 +247,31 @@ body {
   background: #17c653;
 }
 
-.episode-info {
+.mini-player {
   display: flex;
   align-items: center;
+  gap: 12px;
+  margin-left: 16px;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 4px;
+  background-color: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--accent-blue);
+  transition: width 0.1s;
+}
+
+.time-display {
   color: var(--text-dim);
-  font-size: 14px;
+  font-size: 12px;
+  min-width: 80px;
 }
 
 .like {
